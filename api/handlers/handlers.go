@@ -28,11 +28,11 @@ type Msg struct {
 
 func NewHandlers(l *link.Links) *Handler {
 	var err error
-	Templates.Main, err = template.ParseFiles("api/templates/main.html")
+	Templates.Main, err = template.ParseFiles("views/main.html")
 	if err != nil {
 		log.Fatalf("Init template error: %v", err)
 	}
-	Templates.Msg, err = template.ParseFiles("api/templates/msg.html")
+	Templates.Msg, err = template.ParseFiles("views/msg.html")
 	if err != nil {
 		log.Fatalf("Init template error: %v", err)
 	}
@@ -79,7 +79,7 @@ func (rt *Handler) CreateLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = Templates.Msg.ExecuteTemplate(w, "msg", Msg{fmt.Sprint("http://localhost:8000/", shortLink)})
+	err = Templates.Msg.ExecuteTemplate(w, "msg", Msg{fmt.Sprint("http://localhost:8080/", shortLink)})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

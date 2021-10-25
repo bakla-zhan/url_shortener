@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"time"
 	"urlshortener/app/repo/link"
@@ -37,6 +36,5 @@ func (s *Server) Stop() {
 
 func (s *Server) Start(ls *link.Links) {
 	s.ls = ls
-	log.Println("Server started on port :8000")
 	go s.srv.ListenAndServe()
 }
