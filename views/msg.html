@@ -1,0 +1,17 @@
+{{ define "msg" }}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Message</title>
+	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css">
+</head>
+<body style="padding: 1em;">
+	<p><b>{{ .Msg1 }}</b></p>
+	<p>{{ .Msg2 }}</p>
+	<br>
+	<p><b>{{ .Msg3 }}</b></p>
+	<p>{{ .Msg4 }}</p>
+	<a class="pure-button pure-button-primary" href="{{.BackURL}}">Назад</a>
+</body>
+</html>
+{{ end }}

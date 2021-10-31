@@ -1,0 +1,46 @@
+{{ define "stats" }}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css">
+	<title>URL statistics</title>
+</head>
+
+<body>
+	<p><b>IP адреса пользователей, которые перешли по данной ссылке</b></p>
+	<p><b>для просмотра количества переходов кликните по конкретному IP</b></p>
+	
+	<table class="pure-table">
+		<thead>
+			<tr>
+				<th>Переходов всего</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>{{len .Stats}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<table class="pure-table">
+		<thead>
+			<tr>
+				<th>IP</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{{range .Stats}}
+			<tr>
+				<td><a href="/{{.Link}}/stats/{{.IP}}">{{.IP}}</a></td>
+			</tr>
+			{{end}}
+		</tbody>
+	</table>
+</body>
+
+</html>
+{{ end }}

@@ -1,0 +1,30 @@
+{{ define "stats-ip" }}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css">
+	<title>IP statistics</title>
+</head>
+
+<body>
+	<table class="pure-table">
+		<thead>
+			<tr>
+				<th>Переходов с IP {{.Stat.IP}}</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>{{.Count}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<a class="pure-button pure-button-primary" href="/{{.Stat.Link}}/stats">Назад</a>
+
+</body>
+
+</html>
+{{ end }}
