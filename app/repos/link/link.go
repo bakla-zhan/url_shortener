@@ -13,8 +13,8 @@ type Link struct {
 }
 
 type LinkStore interface {
-	Create(ctx context.Context, link Link) error
-	Read(ctx context.Context, shortLink string) (longLink string, err error)
+	CreateLink(ctx context.Context, link Link) error
+	ReadLink(ctx context.Context, shortLink string) (longLink string, err error)
 }
 
 type Links struct {
@@ -33,7 +33,7 @@ func (l *Links) Create(ctx context.Context, longLink string) (shortLink string, 
 		Long:  longLink,
 		Short: shortLink,
 	}
-	err = l.lstore.Create(ctx, link)
+	err = l.lstore.CreateLink(ctx, link)
 	if err != nil {
 		return "", fmt.Errorf("create link error: %w", err)
 	}
@@ -41,13 +41,14 @@ func (l *Links) Create(ctx context.Context, longLink string) (shortLink string, 
 }
 
 func (l *Links) Read(ctx context.Context, shortLink string) (longLink string, err error) {
-	return l.lstore.Read(ctx, shortLink)
+	return l.lstore.ReadLink(ctx, shortLink)
 }
 
+var chars = []byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}
+
 func shortLinkGenerator() (shortLink string) {
-	chars := []byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-		'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}
 	shortLinkArr := make([]byte, 8)
 
 	rand.Seed(time.Now().UnixNano())

@@ -23,10 +23,6 @@ func main() {
 		}
 	}
 
-	// output current time zone
-	tnow := time.Now()
-	tz, _ := tnow.Zone()
-
 	dsn, ok := os.LookupEnv("DB_DSN")
 	if !ok {
 		log.Fatal("DB_DSN env is not set")
@@ -34,14 +30,14 @@ func main() {
 
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 
-	ls, err := pg.NewLinks(dsn)
+	st, err := pg.NewStore(dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer ls.Close()
+	defer st.Close()
 
-	a := starter.NewApp(ls)
-	h := handlers.NewHandlers(a.Ls)
+	a := starter.NewApp(st)
+	h := handlers.NewHandlers(a)
 	srv := server.NewServer(":8080", h)
 
 	wg := &sync.WaitGroup{}
@@ -49,6 +45,8 @@ func main() {
 
 	go a.Serve(ctx, wg, srv)
 
+	tnow := time.Now()
+	tz, _ := tnow.Zone()
 	log.Printf("Local time zone %s. Service started at %s", tz, tnow.Format("2006-01-02T15:04:05.000 MST"))
 
 	<-ctx.Done()

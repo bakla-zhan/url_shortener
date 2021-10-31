@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 	"time"
-	"urlshortener/app/repo/link"
 	"urlshortener/app/starter"
 )
 
@@ -12,7 +11,7 @@ var _ starter.APIServer = &Server{}
 
 type Server struct {
 	srv http.Server
-	ls  *link.Links
+	a   *starter.App
 }
 
 func NewServer(addr string, h http.Handler) *Server {
@@ -34,7 +33,7 @@ func (s *Server) Stop() {
 	cancel()
 }
 
-func (s *Server) Start(ls *link.Links) {
-	s.ls = ls
+func (s *Server) Start(a *starter.App) {
+	s.a = a
 	go s.srv.ListenAndServe()
 }
