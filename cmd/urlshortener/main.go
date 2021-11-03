@@ -8,10 +8,11 @@ import (
 	"sync"
 	"syscall"
 	"time"
-	"urlshortener/api/handlers"
-	"urlshortener/api/server"
-	"urlshortener/app/starter"
-	"urlshortener/db/sql/pg"
+
+	"github.com/bakla-zhan/url_shortener/api/handlers"
+	"github.com/bakla-zhan/url_shortener/api/server"
+	"github.com/bakla-zhan/url_shortener/app/starter"
+	"github.com/bakla-zhan/url_shortener/db/sql/pg"
 )
 
 func main() {

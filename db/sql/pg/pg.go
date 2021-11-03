@@ -3,8 +3,9 @@ package pg
 import (
 	"context"
 	"database/sql"
-	"urlshortener/app/repos/link"
-	"urlshortener/app/repos/stat"
+
+	"github.com/bakla-zhan/url_shortener/app/repos/link"
+	"github.com/bakla-zhan/url_shortener/app/repos/stat"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 )

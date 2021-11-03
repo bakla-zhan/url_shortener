@@ -8,8 +8,9 @@ import (
 	"net/http"
 	"path"
 	"strings"
-	"urlshortener/app/repos/stat"
-	"urlshortener/app/starter"
+
+	"github.com/bakla-zhan/url_shortener/app/repos/stat"
+	"github.com/bakla-zhan/url_shortener/app/starter"
 
 	"github.com/gorilla/mux"
 )
