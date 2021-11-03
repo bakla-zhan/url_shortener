@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -136,6 +137,9 @@ func (rt *Handler) ReadLink(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	fmt.Println("X-Forwarded-For", r.Header.Get("X-Forwarded-For"))
+	fmt.Println("HTTP_X_FORWARDED_FOR", r.Header.Get("HTTP_X_FORWARDED_FOR"))
+	fmt.Println("REMOTE_ADDR", r.Header.Get("REMOTE_ADDR"))
 
 	ip := strings.Split(r.RemoteAddr, ":")[0]
 	err = rt.a.Ss.Add(r.Context(), stat.Stat{
