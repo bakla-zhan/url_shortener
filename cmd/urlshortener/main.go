@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -24,9 +25,13 @@ func main() {
 		}
 	}
 
-	dsn, ok := os.LookupEnv("DB_DSN")
+	dsn, ok := os.LookupEnv("DATABASE_URL")
 	if !ok {
-		log.Fatal("DB_DSN env is not set")
+		log.Fatal("DATABASE_URL env is not set")
+	}
+	port, ok := os.LookupEnv("PORT")
+	if !ok {
+		log.Fatal("PORT env is not set")
 	}
 
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
@@ -39,7 +44,7 @@ func main() {
 
 	a := starter.NewApp(st)
 	h := handlers.NewHandlers(a)
-	srv := server.NewServer(":8080", h)
+	srv := server.NewServer(fmt.Sprint(":", port), h)
 
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
