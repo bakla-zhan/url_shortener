@@ -2,16 +2,18 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
 	"time"
-	"urlshortener/api/handlers"
-	"urlshortener/api/server"
-	"urlshortener/app/starter"
-	"urlshortener/db/sql/pg"
+
+	"github.com/bakla-zhan/url_shortener/api/handlers"
+	"github.com/bakla-zhan/url_shortener/api/server"
+	"github.com/bakla-zhan/url_shortener/app/starter"
+	"github.com/bakla-zhan/url_shortener/db/sql/pg"
 )
 
 func main() {
@@ -23,9 +25,13 @@ func main() {
 		}
 	}
 
-	dsn, ok := os.LookupEnv("DB_DSN")
+	dsn, ok := os.LookupEnv("DATABASE_URL")
 	if !ok {
-		log.Fatal("DB_DSN env is not set")
+		log.Fatal("DATABASE_URL env is not set")
+	}
+	port, ok := os.LookupEnv("PORT")
+	if !ok {
+		log.Fatal("PORT env is not set")
 	}
 
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
@@ -38,7 +44,7 @@ func main() {
 
 	a := starter.NewApp(st)
 	h := handlers.NewHandlers(a)
-	srv := server.NewServer(":8080", h)
+	srv := server.NewServer(fmt.Sprint(":", port), h)
 
 	wg := &sync.WaitGroup{}
 	wg.Add(1)

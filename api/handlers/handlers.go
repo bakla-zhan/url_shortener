@@ -7,9 +7,9 @@ import (
 	"log"
 	"net/http"
 	"path"
-	"strings"
-	"urlshortener/app/repos/stat"
-	"urlshortener/app/starter"
+
+	"github.com/bakla-zhan/url_shortener/app/repos/stat"
+	"github.com/bakla-zhan/url_shortener/app/starter"
 
 	"github.com/gorilla/mux"
 )
@@ -136,7 +136,7 @@ func (rt *Handler) ReadLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ip := strings.Split(r.RemoteAddr, ":")[0]
+	ip := r.Header.Get("X-Forwarded-For")
 	err = rt.a.Ss.Add(r.Context(), stat.Stat{
 		Link: shortLink,
 		IP:   ip,

@@ -4,7 +4,8 @@ import (
 	"context"
 	"net/http"
 	"time"
-	"urlshortener/app/starter"
+
+	"github.com/bakla-zhan/url_shortener/app/starter"
 )
 
 var _ starter.APIServer = &Server{}
